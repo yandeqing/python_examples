@@ -1,4 +1,8 @@
 # Created by .ignore support plugin (hsz.mobi)
+#git rm -rf --cached .
+#git add .
+#git commit -m 'update'
+#git push origin master
 .idea
 output
 venv
