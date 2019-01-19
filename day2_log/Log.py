@@ -3,24 +3,24 @@ import logging
 from datetime import datetime
 import threading
 
-proDir = os.path.split(os.path.realpath(__file__))[0].split("/")[0]
+proDir = os.path.abspath(os.path.join(os.path.dirname(__file__),os.path.pardir))
 
 class Log:
     def __init__(self):
         global logPath, resultPath, proDir
-        resultPath = os.path.join(proDir, "result")
+        resultPath = os.path.join(proDir, "output")
         if not os.path.exists(resultPath):
             os.mkdir(resultPath)
         logPath = os.path.join(resultPath, str(datetime.now().strftime("%Y%m%d%H%M%S")))
         if not os.path.exists(logPath):
             os.mkdir(logPath)
+        # defined config
+        logging.basicConfig(format='%(asctime)s-%(pathname)s[line:%(lineno)d]-%(levelname)s: %(message)s', level=logging.DEBUG)
         self.logger = logging.getLogger()
-        self.logger.setLevel(logging.INFO)
-
         # defined handler
         handler = logging.FileHandler(os.path.join(logPath, "output.log"))
         # defined formatter
-        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        formatter = logging.Formatter('%(asctime)s-%(pathname)s[line:%(lineno)d]-%(levelname)s: %(message)s')
         handler.setFormatter(formatter)
         self.logger.addHandler(handler)
 
@@ -31,29 +31,6 @@ class Log:
         """
         return self.logger
 
-    def build_start_line(self, case_no):
-        """
-        write start line
-        :return:
-        """
-        self.logger.info("--------" + case_no + " START--------")
-
-    def build_end_line(self, case_no):
-        """
-        write end line
-        :return:
-        """
-        self.logger.info("--------" + case_no + " END--------")
-
-    def build_case_line(self, case_name, code, msg):
-        """
-        write test case line
-        :param case_name:
-        :param code:
-        :param msg:
-        :return:
-        """
-        self.logger.info(case_name + " - Code:" + code + " - msg:" + msg)
 
     def get_report_path(self):
         """

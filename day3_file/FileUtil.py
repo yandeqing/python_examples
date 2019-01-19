@@ -1,5 +1,7 @@
 import os
 
+global proDir
+
 
 def getFileParentDir(filepath):
     """
@@ -10,7 +12,7 @@ def getFileParentDir(filepath):
     return os.path.abspath(os.path.join(os.path.dirname(filepath), os.path.pardir))
 
 
-def createFile(proDir,fileName):
+def createFile(proDir, fileName):
     """
     创建文件
     :param fileName:
@@ -22,7 +24,9 @@ def createFile(proDir,fileName):
         os.mkdir(resultPath)
 
 
+proDir = getFileParentDir(__file__)
+
 if __name__ == "__main__":
     proDir = getFileParentDir(__file__)
     print(proDir)
-    createFile(proDir,"result")
+    createFile(proDir, "result")

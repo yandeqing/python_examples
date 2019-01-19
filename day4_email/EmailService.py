@@ -10,7 +10,8 @@ import threading
 import zipfile
 import glob
 
-from config import ConfigUtil
+from day1_config import ConfigUtil
+from day2_log.Log import ZLog
 
 localReadConfig = ConfigUtil.ReadConfig()
 
@@ -36,7 +37,7 @@ class Email:
         date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         self.subject = "接口测试报告" + " " + date
 
-        self.log = MyLog.get_log()
+        self.log = ZLog.get_log()
         self.logger = self.log.get_logger()
         self.msg = MIMEMultipart('related')
 
@@ -63,7 +64,7 @@ class Email:
 
     def config_image(self):
         """
-        config image that be used by content
+        day1_config image that be used by content
         :return:
         """
         # defined image path
@@ -89,11 +90,11 @@ class Email:
 
     def config_file(self):
         """
-        config email file
+        day1_config email file
         :return:
         """
 
-        # if the file content is not null, then config the email file
+        # if the file content is not null, then day1_config the email file
         if self.check_file():
 
             reportpath = self.log.get_result_path()

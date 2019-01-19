@@ -3,7 +3,7 @@ import codecs
 import configparser
 
 proDir = os.path.split(os.path.realpath(__file__))[0]
-configPath = os.path.join(proDir, "config.ini")
+configPath = os.path.join(proDir, "day1_config.ini")
 
 
 class ConfigUtil:
