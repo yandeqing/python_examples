@@ -1,4 +1,4 @@
-# apitest
+# python_example
 >python_example 
 #### 该项目涉及主要知识点:
 * day1_config 配置信息的读取
