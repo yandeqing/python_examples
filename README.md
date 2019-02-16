@@ -1,8 +1,8 @@
 # python_example
 >python_example 
 #### 该项目涉及主要知识点:
-* day1_config 配置信息的读取
-* day2_log log日志的使用
+* day1_config 配置信息的读取与存储
+* day2_log log日志的输出和存储
 * day3_file 文件的处理
 * day4_email Email邮件发送相关功能实现
 * day5_request http 执行用例保存执行结果
