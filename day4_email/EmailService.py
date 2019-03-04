@@ -10,10 +10,11 @@ import threading
 import zipfile
 import glob
 
-from day1_config import ConfigUtil
+from day1_config.ConfigUtil import ConfigUtil
 from day2_log.Log import ZLog
+from day3_file import FileUtil
 
-localReadConfig = ConfigUtil.ReadConfig()
+localReadConfig = ConfigUtil()
 
 
 class Email:
@@ -35,7 +36,7 @@ class Email:
 
         # defined email subject
         date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        self.subject = "接口测试报告" + " " + date
+        self.subject = date + "接口测试报告"
 
         self.log = ZLog.get_log()
         self.logger = self.log.get_logger()
@@ -55,7 +56,7 @@ class Email:
         write the content of email
         :return:
         """
-        f = open(os.path.join(ConfigUtil.proDir, 'testFile', 'emailStyle.txt'))
+        f = open(os.path.join(FileUtil.proDir, 'test_file', 'email_content.html'))
         content = f.read()
         f.close()
         content_plain = MIMEText(content, 'html', 'UTF-8')
@@ -68,7 +69,7 @@ class Email:
         :return:
         """
         # defined image path
-        image1_path = os.path.join(ConfigUtil.proDir, 'testFile', 'img', '1.png')
+        image1_path = os.path.join(FileUtil.proDir, 'test_file', 'test.png')
         fp1 = open(image1_path, 'rb')
         msgImage1 = MIMEImage(fp1.read())
         # self.msg.attach(msgImage1)
@@ -78,7 +79,7 @@ class Email:
         msgImage1.add_header('Content-ID', '<image1>')
         self.msg.attach(msgImage1)
 
-        image2_path = os.path.join(ConfigUtil.proDir, 'testFile', 'img', '1.png')
+        image2_path = os.path.join(FileUtil.proDir, 'test_file', 'test.png')
         fp2 = open(image2_path, 'rb')
         msgImage2 = MIMEImage(fp2.read())
         # self.msg.attach(msgImage2)
@@ -98,14 +99,13 @@ class Email:
         if self.check_file():
 
             reportpath = self.log.get_result_path()
-            zippath = os.path.join(ConfigUtil.proDir, "result", "test.zip")
-
+            zippath = os.path.join(FileUtil.proDir, "output", "test.zip")
             # zip file
             files = glob.glob(reportpath + '\*')
             f = zipfile.ZipFile(zippath, 'w', zipfile.ZIP_DEFLATED)
             for file in files:
                 # 修改压缩文件的目录结构
-                f.write(file, '/report/'+os.path.basename(file))
+                f.write(file, '/report/' + os.path.basename(file))
             f.close()
 
             reportfile = open(zippath, 'rb').read()
@@ -153,7 +153,6 @@ class MyEmail:
 
     @staticmethod
     def get_email():
-
         if MyEmail.email is None:
             MyEmail.mutex.acquire()
             MyEmail.email = Email()
@@ -163,3 +162,4 @@ class MyEmail:
 
 if __name__ == "__main__":
     email = MyEmail.get_email()
+    email.send_email()

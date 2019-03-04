@@ -3,10 +3,10 @@ import codecs
 import configparser
 
 proDir = os.path.split(os.path.realpath(__file__))[0]
-configPath = os.path.join(proDir, "day1_config.ini")
+configPath = os.path.join(proDir, "config.ini")
 
 
-class ConfigUtil:
+class ConfigUtil():
     def __init__(self):
         fd = open(configPath)
         data = fd.read()
@@ -50,7 +50,7 @@ class ConfigUtil:
 
 if __name__ == "__main__":
     config = ConfigUtil()
-    db = config.get_db("host")
+    db = config.cf.get("DATABASE", "host")
     print(db)
-    config.set_headers("token_v","123456")
-    print(config.get_headers("token_v"))
+    config.cf.set("HEADERS", "token_v", "1234561212121212")
+    print(config.cf.get("HEADERS","token_v"))

@@ -9,7 +9,9 @@ def getFileParentDir(filepath):
     :param filepath:
     :return:
     """
-    return os.path.abspath(os.path.join(os.path.dirname(filepath), os.path.pardir))
+    dirname = os.path.dirname(filepath)
+    pardir = os.path.pardir
+    return os.path.abspath(os.path.join(dirname, pardir))
 
 
 def createFile(proDir, fileName):
