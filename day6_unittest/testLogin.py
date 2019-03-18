@@ -1,7 +1,12 @@
 import unittest
 
-login_xls = common.get_xls("userCase.xlsx", "login")
-localReadConfig = readConfig.ReadConfig()
+import paramunittest as paramunittest
+
+from day1_config.ConfigUtil import ConfigUtil
+from day6_unittest import common_utils
+
+login_xls = common_utils.get_xls("userCase.xlsx", "login")
+localReadConfig = ConfigUtil()
 info = {}
 
 
@@ -43,7 +48,7 @@ class Login(unittest.TestCase):
 
         :return:
         """
-        self.log = Log.MyLog.get_log()
+        self.log = Log.ZLog.get_log()
         self.logger = self.log.get_logger()
         print(self.case_name + "测试开始前准备")
 
@@ -53,7 +58,7 @@ class Login(unittest.TestCase):
         :return:
         """
         # set url
-        self.url = common.get_url_from_xml('login')
+        self.url = common_utils.get_url_from_xml('login')
         configHttp.set_url(self.url)
         print("第一步：设置url  " + self.url)
 
@@ -91,7 +96,7 @@ class Login(unittest.TestCase):
         info = self.info
         if info['code'] == 0:
             # get uer token
-            token_u = common.get_value_from_return_json(info, 'member', 'token')
+            token_u = common_utils.get_value_from_return_json(info, 'member', 'token')
             # set user token to config file
             localReadConfig.set_headers("TOKEN_U", token_u)
         else:
@@ -106,10 +111,10 @@ class Login(unittest.TestCase):
         """
         self.info = self.return_json.json()
         # show return message
-        common.show_return_msg(self.return_json)
+        common_utils.show_return_msg(self.return_json)
 
         if self.result == '0':
-            email = common.get_value_from_return_json(self.info, 'member', 'email')
+            email = common_utils.get_value_from_return_json(self.info, 'member', 'email')
             self.assertEqual(self.info['code'], self.code)
             self.assertEqual(self.info['msg'], self.msg)
             self.assertEqual(email, self.email)
